@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GodsRods.online | Professional Racing Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Inter:wght@400;500;700&display=swap');
+        
+        :root {
+            --neon-blue: #00d4ff;
+            --dirt-gold: #c5a059;
+            --carbon-black: #0a0a0a;
+            --track-grey: #2a2a2a;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #0a0a0a; 
+            color: #e0e0e0;
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), 
+                url('https://images.unsplash.com/photo-1594739433321-2679fd01111a?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .font-header { font-family: 'Orbitron', sans-serif; }
+        .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+
+        .app-container { 
+            width: 100%; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow-x: hidden;
+        }
+
+        .sparkle-gradient { 
+            background: linear-gradient(90deg, #00d4ff, #c5a059, #00d4ff); 
+            background-size: 200% 200%; 
+            animation: grad 3s ease infinite; 
+        }
+
+        @keyframes grad { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        .glass { 
+            background: rgba(20, 20, 20, 0.85); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--neon-blue);
+        }
+
+        .btn-bet {
+            background: var(--neon-blue);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .btn-bet:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .wp-section {
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
+        .wpcf7 {
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+
+        .wpcf7-form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .wpcf7-submit {
+            background: var(--neon-blue);
+            color: #000;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1541443131876-44b03de101c5?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .cta-button-primary { background: var(--neon-blue); color: #000; }
+        .cta-button-secondary { background: transparent; color: #fff; border-color: var(--dirt-gold); }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: var(--neon-blue);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+<script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const API_URL = 'http://localhost:8080/api/auth';
+
+    const GodsRodsApp = () => {
+        const [activeTab, setActiveTab] = useState('home');
+        const [userBalance, setUserBalance] = useState(0);
+        const [isLoggedIn, setIsLoggedIn] = useState(false);
+        const [currentUser, setCurrentUser] = useState(null);
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [formStatus, setFormStatus] = useState('');
+        const [activeRaces, setActiveRaces] = useState([]);
+        const [userCars, setUserCars] = useState([]);
+
+        const [registerForm, setRegisterForm] = useState({
+            username: '', email: '', password: '', team: ''
+        });
+        
+        const [loginForm, setLoginForm] = useState({
+            email: '', password: ''
+        });
+
+        useEffect(() => {
+            const token = localStorage.getItem('token');
+            const savedUser = localStorage.getItem('user');
+            if (token && savedUser) {
+                const user = JSON.parse(savedUser);
+                setCurrentUser(user);
+                setIsLoggedIn(true);
+                setUserBalance(user.balance || 10000);
+            }
+
+            setActiveRaces([
+                { id: 1, type: 'Circuit', participants: 8, pot: 5000 },
+                { id: 2, type: 'Drag Strip', participants: 4, pot: 2500 },
+                { id: 3, type: 'Pro-Tuning', participants: 6, pot: 3500 }
+            ]);
+
+            setUserCars([
+                { id: 1, name: 'Circuit Titan', power: 850, weight: 3200, type: 'Circuit' },
+                { id: 2, name: 'Drag Demon', power: 1200, weight: 2800, type: 'Drag Strip' }
+            ]);
+        }, []);
+
+        const handleRegisterSubmit = async (e) => {
+            e.preventDefault();
+            setIsSubmitting(true);
+            setFormStatus('');
+            try {
+                const res = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(registerForm)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    setCurrentUser(data.user);
+                    setUserBalance(data.user.balance);
+                    setIsLoggedIn(true);
+                    setFormStatus('success');
+                    setActiveTab('racing');
+                } else {
+                    setFormStatus('error');
+                    alert(data.message || 'Registration failed');
+                }
+            } catch (err) {
+                setFormStatus('error');
+                console.error(err);
+            }
+            setIsSubmitting(false);
+        };
+
+        const handleLoginSubmit = async (e) => {
+            e.preventDefault();
+            setIsSubmitting(true);
+            setFormStatus('');
+            try {
+                const res = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(loginForm)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    setCurrentUser(data.user);
+                    setUserBalance(data.user.balance);
+                    setIsLoggedIn(true);
+                    setFormStatus('success');
+                    setActiveTab('racing');
+                } else {
+                    setFormStatus('error');
+                    alert(data.message || 'Login failed');
+                }
+            } catch (err) {
+                setFormStatus('error');
+                console.error(err);
+            }
+            setIsSubmitting(false);
+        };
+
+        const handleLogout = () => {
+            localStorage.clear();
+            setIsLoggedIn(false);
+            setCurrentUser(null);
+            setUserBalance(0);
+            setActiveTab('home');
+        };
+
+        const handleBuyCar = async (car) => {
+            if (!currentUser) return;
+            
+            try {
+                const res = await fetch('http://localhost:8080/api/shop/buy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentUser.email, item: car })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    setCurrentUser({...currentUser, balance: data.balance, garage: data.garage});
+                    setUserBalance(data.balance);
+                    localStorage.setItem('user', JSON.stringify({...currentUser, balance: data.balance, garage: data.garage}));
+                    alert(`Purchased ${car.name}!`);
+                } else {
+                    alert(data.message || 'Purchase failed');
+                }
+            } catch (err) {
+                console.error('Purchase error:', err);
+                alert('Purchase failed');
+            }
+        };
+
+        return (
+            <div className="app-container">
+                {activeTab !== 'home' && (
+                    <header className="glass-panel p-6 flex justify-between items-center">
+                        <div>
+                            <h1 className="font-header text-3xl sparkle-gradient bg-clip-text text-transparent">GODSRODS</h1>
+                            <p className="text-xs text-gray-400">Professional Racing League</p>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-xl font-bold text-yellow-500">${userBalance.toLocaleString()}</div>
+                            <div className="text-xs text-gray-400">Credits</div>
+                            {isLoggedIn && (
+                                <button onClick={handleLogout} className="text-xs text-red-400 hover:text-red-300 mt-1">Logout</button>
+                            )}
+                        </div>
+                    </header>
+                )}
+
+                {activeTab !== 'home' && (
+                    <nav className="glass p-4 flex gap-4 overflow-x-auto">
+                        {['home', 'register', 'login', 'racing', 'garage', 'shop'].map(tab => (
+                            <button key={tab} 
+                                className={`tab-button uppercase text-xs font-bold ${activeTab === tab ? 'active' : ''}`}
+                                onClick={() => setActiveTab(tab)}>
+                                {tab}
+                            </button>
+                        ))}
+                    </nav>
+                )}
+
+                <main className="flex-1">
+                    {activeTab === 'home' && (
+                        <div className="hero-section">
+                            <div className="hero-content">
+                                <h1 className="hero-title font-header sparkle-gradient bg-clip-text text-transparent">GODSRODS.ONLINE</h1>
+                                <p className="text-xl font-rajdhani mb-8 opacity-90">Sanctioned Pro Racing & Customization</p>
+                                <div className="flex gap-4 justify-center">
+                                    <button className="cta-button cta-button-primary" onClick={() => setActiveTab('register')}>JOIN CIRCUIT</button>
+                                    <button className="cta-button cta-button-secondary" onClick={() => setActiveTab('login')}>SIGN IN</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'register' && (
+                        <div className="wp-section max-w-md mx-auto">
+                            <h2 className="font-header text-2xl mb-6 text-center">Driver Licensing</h2>
+                            <div className="wpcf7">
+                                <form onSubmit={handleRegisterSubmit}>
+                                    <input type="text" placeholder="Driver Name" className="wpcf7-form-control" required 
+                                        onChange={e => setRegisterForm({...registerForm, username: e.target.value})} />
+                                    <input type="email" placeholder="Email Address" className="wpcf7-form-control" required 
+                                        onChange={e => setRegisterForm({...registerForm, email: e.target.value})} />
+                                    <input type="password" placeholder="Password" className="wpcf7-form-control" required 
+                                        onChange={e => setRegisterForm({...registerForm, password: e.target.value})} />
+                                    <input type="text" placeholder="Racing Team" className="wpcf7-form-control" 
+                                        onChange={e => setRegisterForm({...registerForm, team: e.target.value})} />
+                                    <button type="submit" className="wpcf7-submit w-full" disabled={isSubmitting}>
+                                        {isSubmitting ? 'PROCESSING...' : 'OBTAIN LICENSE'}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'login' && (
+                        <div className="wp-section max-w-md mx-auto">
+                            <h2 className="font-header text-2xl mb-6 text-center">Driver Access</h2>
+                            <div className="wpcf7">
+                                <form onSubmit={handleLoginSubmit}>
+                                    <input type="email" placeholder="Email Address" className="wpcf7-form-control" required 
+                                        onChange={e => setLoginForm({...loginForm, email: e.target.value})} />
+                                    <input type="password" placeholder="Password" className="wpcf7-form-control" required 
+                                        onChange={e => setLoginForm({...loginForm, password: e.target.value})} />
+                                    <button type="submit" className="wpcf7-submit w-full" disabled={isSubmitting}>
+                                        {isSubmitting ? 'VERIFYING...' : 'SIGN IN'}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'racing' && (
+                        <div className="p-8 max-w-4xl mx-auto">
+                            <h2 className="font-header text-2xl mb-6">Upcoming Track Schedule</h2>
+                            <div className="grid gap-4">
+                                {activeRaces.map(race => (
+                                    <div key={race.id} className="glass p-6 rounded-lg flex justify-between items-center border-l-4 border-blue-500">
+                                        <div>
+                                            <h3 className="font-bold text-xl">{race.type} Qualifier #{race.id}</h3>
+                                            <p className="text-sm text-gray-400">{race.participants} Drivers • Prize Pool: ${race.pot}</p>
+                                        </div>
+                                        <button className="btn-bet px-6 py-2 rounded">Enter Heat</button>
+                                    </div>
+
+            {activeTab === 'login' && (
+                <div className="wp-section max-w-md mx-auto">
+                    <h2 className="font-header text-2xl mb-6 text-center">Driver Access</h2>
+                    <div className="wpcf7">
+                        <form onSubmit={handleLoginSubmit}>
+                            <input type="email" placeholder="Email Address" className="wpcf7-form-control" required 
+                                onChange={e => setLoginForm({...loginForm, email: e.target.value})} />
+                            <input type="password" placeholder="Password" className="wpcf7-form-control" required 
+                                onChange={e => setLoginForm({...loginForm, password: e.target.value})} />
+                            <button type="submit" className="wpcf7-submit w-full" disabled={isSubmitting}>
+                                {isSubmitting ? 'VERIFYING...' : 'SIGN IN'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {activeTab === 'racing' && (
+                <div className="p-8 max-w-4xl mx-auto">
+                    <h2 className="font-header text-2xl mb-6">Upcoming Track Schedule</h2>
+                    <div className="grid gap-4">
+                        {activeRaces.map(race => (
+                            <div key={race.id} className="glass p-6 rounded-lg flex justify-between items-center border-l-4 border-blue-500">
+                                <div>
+                                    <h3 className="font-bold text-xl">{race.type} Qualifier #{race.id}</h3>
+                                    <p className="text-sm text-gray-400">{race.participants} Drivers • Prize Pool: ${race.pot}</p>
+                                </div>
+                                <button className="btn-bet px-6 py-2 rounded">Enter Heat</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            </div>
+        );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<GodsRodsApp />);
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GodsRods Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .status-online { color: #10b981; }
+        .status-offline { color: #ef4444; }
+        .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="glass rounded-lg p-6 mb-6 text-white">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold flex items-center">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        GodsRods Admin Dashboard
+                    </h1>
+                    <p class="text-sm opacity-80 mt-1">Monitor your full-stack webapp deployment</p>
+                </div>
+                <div class="text-right">
+                    <div id="current-time" class="text-xl font-mono"></div>
+                    <div class="text-sm opacity-80">Auto-refresh every 30s</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Status Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <!-- Supabase Status -->
+            <div class="glass rounded-lg p-6 text-white">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold">Supabase Database</h3>
+                        <p class="text-sm opacity-80">User data & storage</p>
+                    </div>
+                    <i class="fas fa-database text-2xl"></i>
+                </div>
+                <div id="supabase-status" class="flex items-center">
+                    <div class="w-3 h-3 rounded-full bg-gray-400 mr-2"></div>
+                    <span>Checking...</span>
+                </div>
+                <div id="supabase-details" class="mt-2 text-sm"></div>
+            </div>
+
+            <!-- Netlify Status -->
+            <div class="glass rounded-lg p-6 text-white">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold">Netlify Hosting</h3>
+                        <p class="text-sm opacity-80">Frontend & functions</p>
+                    </div>
+                    <i class="fas fa-globe text-2xl"></i>
+                </div>
+                <div id="netlify-status" class="flex items-center">
+                    <div class="w-3 h-3 rounded-full bg-gray-400 mr-2"></div>
+                    <span>Checking...</span>
+                </div>
+                <div id="netlify-details" class="mt-2 text-sm"></div>
+            </div>
+
+            <!-- GitHub Status -->
+            <div class="glass rounded-lg p-6 text-white">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold">GitHub Repository</h3>
+                        <p class="text-sm opacity-80">Source code & CI/CD</p>
+                    </div>
+                    <i class="fab fa-github text-2xl"></i>
+                </div>
+                <div id="github-status" class="flex items-center">
+                    <div class="w-3 h-3 rounded-full bg-gray-400 mr-2"></div>
+                    <span>Checking...</span>
+                </div>
+                <div id="github-details" class="mt-2 text-sm"></div>
+            </div>
+        </div>
+
+        <!-- User Data Table -->
+        <div class="glass rounded-lg p-6 text-white mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">
+                    <i class="fas fa-users mr-2"></i>
+                    Registered Users
+                </h2>
+                <button onclick="refreshUserData()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm">
+                    <i class="fas fa-sync-alt mr-1"></i> Refresh
+                </button>
+            </div>
+            <div id="users-table-container">
+                <div class="text-center py-8">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+                    <p>Loading user data...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logs Section -->
+        <div class="glass rounded-lg p-6 text-white">
+            <h2 class="text-xl font-semibold mb-4">
+                <i class="fas fa-terminal mr-2"></i>
+                System Logs
+            </h2>
+            <div id="logs-container" class="bg-black bg-opacity-50 rounded-lg p-4 h-48 overflow-y-auto font-mono text-sm">
+                <div class="text-green-400">[SYSTEM] Admin Dashboard started</div>
+                <div class="text-blue-400">[INFO] Monitoring GodsRods.fullstack deployment</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+        
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Add log message
+        function addLog(message, type = 'INFO') {
+            const logsContainer = document.getElementById('logs-container');
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'INFO': 'text-blue-400',
+                'SUCCESS': 'text-green-400',
+                'ERROR': 'text-red-400',
+                'WARNING': 'text-yellow-400'
+            };
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = colors[type] || 'text-gray-400';
+            logEntry.textContent = `[${timestamp}] [${type}] ${message}`;
+            logsContainer.appendChild(logEntry);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+
+        // Check all services
+        async function checkAllServices() {
+            addLog('Checking service status...', 'INFO');
+            
+            // Check Supabase
+            try {
+                const supabaseStatus = await ipcRenderer.invoke('get-supabase-status');
+                updateStatusCard('supabase', supabaseStatus);
+                addLog(`Supabase: ${supabaseStatus.status}`, supabaseStatus.status === 'Connected' ? 'SUCCESS' : 'ERROR');
+            } catch (error) {
+                updateStatusCard('supabase', { status: 'Error', error: error.message });
+                addLog(`Supabase error: ${error.message}`, 'ERROR');
+            }
+
+            // Check Netlify
+            try {
+                const netlifyStatus = await ipcRenderer.invoke('get-netlify-status');
+                updateStatusCard('netlify', netlifyStatus);
+                addLog(`Netlify: ${netlifyStatus.status}`, netlifyStatus.status === 'Connected' ? 'SUCCESS' : 'ERROR');
+            } catch (error) {
+                updateStatusCard('netlify', { status: 'Error', error: error.message });
+                addLog(`Netlify error: ${error.message}`, 'ERROR');
+            }
+
+            // Check GitHub
+            try {
+                const githubStatus = await ipcRenderer.invoke('get-github-status');
+                updateStatusCard('github', githubStatus);
+                addLog(`GitHub: ${githubStatus.status}`, githubStatus.status === 'Connected' ? 'SUCCESS' : 'ERROR');
+            } catch (error) {
+                updateStatusCard('github', { status: 'Error', error: error.message });
+                addLog(`GitHub error: ${error.message}`, 'ERROR');
+            }
+
+            // Load user data
+            await loadUserData();
+        }
+
+        // Update status card
+        function updateStatusCard(service, status) {
+            const statusElement = document.getElementById(`${service}-status`);
+            const detailsElement = document.getElementById(`${service}-details`);
+            
+            if (status.status === 'Connected') {
+                statusElement.innerHTML = `
+                    <div class="w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse-slow"></div>
+                    <span class="status-online">Online</span>
+                `;
+                
+                if (service === 'supabase') {
+                    detailsElement.textContent = `${status.count} users in database`;
+                } else if (service === 'github') {
+                    detailsElement.textContent = `⭐ ${status.stars} stars | 🍴 ${status.forks} forks`;
+                }
+            } else {
+                statusElement.innerHTML = `
+                    <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <span class="status-offline">Offline</span>
+                `;
+                detailsElement.textContent = status.error;
+            }
+        }
+
+        // Load user data
+        async function loadUserData() {
+            try {
+                const userData = await ipcRenderer.invoke('get-user-data');
+                const container = document.getElementById('users-table-container');
+                
+                if (userData.users && userData.users.length > 0) {
+                    let tableHTML = `
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="border-b border-white border-opacity-20">
+                                        <th class="text-left py-2">Username</th>
+                                        <th class="text-left py-2">Email</th>
+                                        <th class="text-left py-2">Team</th>
+                                        <th class="text-left py-2">Balance</th>
+                                        <th class="text-left py-2">Cars</th>
+                                        <th class="text-left py-2">Joined</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+                    
+                    userData.users.forEach(user => {
+                        tableHTML += `
+                            <tr class="border-b border-white border-opacity-10">
+                                <td class="py-2">${user.username}</td>
+                                <td class="py-2">${user.email}</td>
+                                <td class="py-2">${user.team}</td>
+                                <td class="py-2">$${user.balance.toLocaleString()}</td>
+                                <td class="py-2">${user.garage ? user.garage.length : 0}</td>
+                                <td class="py-2">${new Date(user.created_at).toLocaleDateString()}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += '</tbody></table></div>';
+                    container.innerHTML = tableHTML;
+                } else {
+                    container.innerHTML = '<div class="text-center py-8 text-gray-300">No users registered yet</div>';
+                }
+            } catch (error) {
+                document.getElementById('users-table-container').innerHTML = 
+                    `<div class="text-center py-8 text-red-400">Error loading user data: ${error.message}</div>`;
+            }
+        }
+
+        // Refresh user data
+        function refreshUserData() {
+            addLog('Manual refresh triggered', 'INFO');
+            loadUserData();
+        }
+
+        // Auto-refresh listener
+        ipcRenderer.on('refresh-data', () => {
+            addLog('Auto-refresh triggered', 'INFO');
+            checkAllServices();
+        });
+
+        // Initial load
+        checkAllServices();
+    </script>
+</body>
+</html>

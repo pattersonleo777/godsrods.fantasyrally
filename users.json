@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1769330818078,
+    "username": "vgrowhouse",
+    "email": "pattersonleo777@gmail.com",
+    "password": "$2a$10$igbV40YzD/NjwR2txjxnUecWF2r4N2xnu.mjCLHrl5bW6w4Vu.ab6",
+    "team": "Independent",
+    "balance": 5500,
+    "garage": [
+      {
+        "name": "Interceptor X",
+        "price": 4500,
+        "class": "S",
+        "purchaseDate": "2026-01-25T08:47:07.072Z"
+      }
+    ]
+  }
+]

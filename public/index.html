@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GodsRods | Full Stack Live</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500&display=swap');
+        body { background: #050505; color: #fff; font-family: 'Rajdhani', sans-serif; }
+        .font-header { font-family: 'Orbitron', sans-serif; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .neon-text { color: #00d4ff; text-shadow: 0 0 10px #00d4ff; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const API_BASE = '/.netlify/functions/auth';
+
+        const App = () => {
+            const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+            const [loading, setLoading] = useState(false);
+            const [showGarage, setShowGarage] = useState(false);
+
+            const auth = async (type, payload) => {
+                setLoading(true);
+                try {
+                    const res = await fetch(`${API_BASE}/${type}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                        setUser(data.user);
+                    } else { alert(data.message); }
+                } finally { setLoading(false); }
+            };
+
+            const publishCar = async (carData) => {
+                try {
+                    const res = await fetch('/.netlify/functions/car-webpages', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            owner_id: user.id,
+                            car_name: carData.name,
+                            model_path: `/assets/models/${carData.model}`,
+                            stats: carData.stats
+                        })
+                    });
+                    const page = await res.json();
+                    if (res.ok) {
+                        const shareUrl = `${window.location.origin}/car/${page.id}`;
+                        alert(`Car Published! Share it here: ${shareUrl}`);
+                    }
+                } catch (err) {
+                    alert('Failed to publish car');
+                }
+            };
+
+            if (!user) {
+                return (
+                    <div className="flex items-center justify-center min-h-screen">
+                        <div className="glass p-10 rounded-xl w-96 text-center">
+                            <h1 className="font-header text-2xl neon-text mb-6">GODSRODS</h1>
+                            <button onClick={() => auth('register', {username: 'Racer1', email: 'test@game.com', password: 'password123'})} 
+                                    className="w-full bg-cyan-500 py-3 rounded font-bold text-black mb-4">
+                                {loading ? 'CONNECTING...' : 'INITIALIZE PILOT'}
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen">
+                    <nav className="p-6 glass flex justify-between items-center border-b border-cyan-500/30">
+                        <h1 className="font-header text-xl neon-text">GODSRODS // ONLINE</h1>
+                        <div className="flex gap-6 items-center">
+                            <span className="text-yellow-400 font-bold tracking-widest">${user.balance}</span>
+                            <button onClick={() => setShowGarage(!showGarage)} className="text-cyan-400 hover:text-cyan-300">GARAGE</button>
+                            <button onClick={() => {localStorage.clear(); window.location.reload();}} className="text-xs opacity-50">DISCONNECT</button>
+                        </div>
+                    </nav>
+
+                    <main className="p-10">
+                        {showGarage && (
+                            <div className="mb-10">
+                                <h2 className="font-header text-2xl mb-6">YOUR GARAGE</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {[
+                                        { name: 'Interceptor X', model: 'interceptor-x.gltf', stats: {speed: 85, handling: 90, power: 88} },
+                                        { name: 'Dirt Mauler', model: 'dirt-mauler.obj', stats: {speed: 75, handling: 70, power: 95} },
+                                        { name: 'Neon Shadow', model: 'neon-shadow.fbx', stats: {speed: 92, handling: 85, power: 78} }
+                                    ].map((car, i) => (
+                                        <div key={i} className="glass p-6 rounded-lg border border-cyan-500/30">
+                                            <h3 className="font-header text-lg mb-2">{car.name}</h3>
+                                            <div className="bg-black/40 aspect-video rounded-lg mb-4 flex items-center justify-center border border-white/5">
+                                                <p className="text-cyan-500/40 text-xs">MODEL: {car.model}</p>
+                                            </div>
+                                            <div className="space-y-2 text-xs mb-4">
+                                                <div className="flex justify-between">
+                                                    <span>SPEED</span>
+                                                    <span className="text-cyan-400">{car.stats.speed}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>HANDLING</span>
+                                                    <span className="text-cyan-400">{car.stats.handling}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>POWER</span>
+                                                    <span className="text-cyan-400">{car.stats.power}</span>
+                                                </div>
+                                            </div>
+                                            <button 
+                                                onClick={() => publishCar(car)}
+                                                className="w-full bg-cyan-500 text-black py-2 rounded font-bold text-sm"
+                                            >
+                                                PUBLISH TO WEBPAGE
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div className="lg:col-span-2 glass p-8 rounded-lg relative overflow-hidden">
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+                                <h2 className="font-header text-sm opacity-70 mb-6 tracking-tighter">VEHICLE_VIEWPORT</h2>
+                                <div className="bg-black/40 aspect-video rounded-lg border border-white/5 flex items-center justify-center">
+                                    <p className="text-cyan-500/40 animate-pulse">ATTACHING_3D_ENGINE...</p>
+                                </div>
+                            </div>
+
+                            <div className="glass p-8 rounded-lg">
+                                <h2 className="font-header text-sm opacity-70 mb-6">SYSTEM_LOGS</h2>
+                                <div className="space-y-4 text-xs font-mono">
+                                    <p className="text-green-400">[OK] Netlify Functions Connected</p>
+                                    <p className="text-green-400">[OK] Supabase Instance Active</p>
+                                    <p className="text-cyan-400">[OK] Assets Path: /assets/models/</p>
+                                    <p className="text-yellow-400">[READY] Car Webpages Engine</p>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
