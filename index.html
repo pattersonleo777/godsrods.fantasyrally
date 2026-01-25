@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GodsRods.online | Pro Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
+        body { background: #0a0a0a; color: #eee; font-family: 'Inter', sans-serif; }
+        .font-header { font-family: 'Orbitron', sans-serif; }
+        .glass { background: rgba(20,20,20,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .neon-text { color: #00d4ff; text-shadow: 0 0 10px rgba(0,212,255,0.5); }
+        .btn-primary { background: #00d4ff; color: #000; font-weight: bold; transition: 0.3s; cursor: pointer; border: none; }
+        .btn-primary:hover { box-shadow: 0 0 20px #00d4ff; }
+        .input-dark { background: #151515; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; width: 100%; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const API = 'http://localhost:8080/api';
+
+        const App = () => {
+            const [tab, setTab] = useState('home');
+            const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+            const [reg, setReg] = useState({});
+            const [log, setLog] = useState({});
+
+            const syncUser = (data) => {
+                localStorage.setItem('user', JSON.stringify(data));
+                setUser(data);
+            };
+
+            const handleAuth = async (path, body) => {
+                const res = await fetch(`${API}/auth/${path}`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (res.ok) { 
+                    syncUser(data.user); 
+                    setTab('garage'); 
+                } else alert(data.message);
+            };
+
+            const buyCar = async (car) => {
+                const res = await fetch(`${API}/shop/buy`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email: user.email, item: car })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    syncUser({...user, balance: data.balance, garage: data.garage});
+                    alert(`Purchased ${car.name}!`);
+                } else alert(data.message);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <header className="p-6 glass flex justify-between items-center">
+                        <h1 className="text-2xl font-header neon-text">GODSRODS</h1>
+                        {user && (
+                            <div className="text-right">
+                                <div className="text-yellow-500 font-bold">${user.balance.toLocaleString()}</div>
+                                <button onClick={() => {localStorage.clear(); setUser(null); setTab('home');}} className="text-xs text-red-500">LOGOUT</button>
+                            </div>
+                        )}
+                    </header>
+
+                    <nav className="flex gap-4 p-4 glass border-t-0">
+                        <button onClick={() => setTab('home')} className="px-4 py-2 text-xs">HOME</button>
+                        {!user ? (
+                            <>
+                                <button onClick={() => setTab('reg')} className="px-4 py-2 text-xs">REGISTER</button>
+                                <button onClick={() => setTab('log')} className="px-4 py-2 text-xs">LOGIN</button>
+                            </>
+                        ) : (
+                            <>
+                                <button onClick={() => setTab('garage')} className="px-4 py-2 text-xs">GARAGE</button>
+                                <button onClick={() => setTab('shop')} className="px-4 py-2 text-xs">CAR SHOP</button>
+                            </>
+                        )}
+                    </nav>
+
+                    <main className="flex-1 p-8">
+                        {tab === 'home' && <div className="text-center py-20"><h2 className="text-5xl font-header mb-4">DRIVE OR DIE</h2><p className="opacity-50 tracking-widest uppercase">The Pro Racing Underground</p></div>}
+                        
+                        {tab === 'reg' && (
+                            <div className="max-w-sm mx-auto glass p-8 rounded">
+                                <h3 className="mb-4 font-header">LICENSE REGISTRATION</h3>
+                                <input className="input-dark" placeholder="Username" onChange={e => setReg({...reg, username: e.target.value})} />
+                                <input className="input-dark" placeholder="Email" onChange={e => setReg({...reg, email: e.target.value})} />
+                                <input className="input-dark" type="password" placeholder="Password" onChange={e => setReg({...reg, password: e.target.value})} />
+                                <button className="btn-primary w-full py-3" onClick={() => handleAuth('register', reg)}>SIGN UP</button>
+                            </div>
+                        )}
+
+                        {tab === 'log' && (
+                            <div className="max-w-sm mx-auto glass p-8 rounded">
+                                <h3 className="mb-4 font-header">DRIVER LOGIN</h3>
+                                <input className="input-dark" placeholder="Email" onChange={e => setLog({...log, email: e.target.value})} />
+                                <input className="input-dark" type="password" placeholder="Password" onChange={e => setLog({...log, password: e.target.value})} />
+                                <button className="btn-primary w-full py-3" onClick={() => handleAuth('login', log)}>LOGIN</button>
+                            </div>
+                        )}
+
+                        {tab === 'garage' && user && (
+                            <div>
+                                <h2 className="text-3xl font-header mb-6">MY GARAGE</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {user.garage.length > 0 ? user.garage.map((car, i) => (
+                                        <div key={i} className="glass p-4 rounded border-l-4 border-cyan-500">
+                                            <h4 className="font-bold text-xl">{car.name}</h4>
+                                            <p className="text-xs opacity-50">CLASS: {car.class}</p>
+                                        </div>
+                                    )) : <p>Your garage is empty. Head to the shop!</p>}
+                                </div>
+                            </div>
+                        )}
+
+                        {tab === 'shop' && user && (
+                            <div>
+                                <h2 className="text-3xl font-header mb-6">CAR DEALER</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {[
+                                        {name: 'Interceptor X', price: 4500, class: 'S'},
+                                        {name: 'Dirt Mauler', price: 3200, class: 'A'},
+                                        {name: 'Neon Shadow', price: 7800, class: 'EX'}
+                                    ].map((car, i) => (
+                                        <div key={i} className="glass p-6 rounded text-center">
+                                            <h4 className="text-2xl font-header mb-2">{car.name}</h4>
+                                            <div className="text-yellow-500 mb-4">${car.price}</div>
+                                            <button className="btn-primary px-8 py-2 text-xs" onClick={() => buyCar(car)} disabled={user.balance < car.price}>BUY NOW</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        };
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
