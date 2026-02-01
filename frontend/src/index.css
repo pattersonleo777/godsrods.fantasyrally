@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+  color: #fff;
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+}
+
+.font-header {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.glass {
+  background: rgba(20, 20, 30, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-text {
+  color: #00d4ff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.neon-border {
+  border-color: #00d4ff;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.btn-primary {
+  @apply bg-cyan-500 text-black font-bold py-2 px-4 rounded transition-all duration-300;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0, 212, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.card {
+  @apply glass p-6 rounded-lg;
+}
+
+/* Racing stripe animation */
+@keyframes raceStripe {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.race-stripe {
+  animation: raceStripe 2s linear infinite;
+}

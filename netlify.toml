@@ -1,6 +1,7 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
+  command = "cd frontend && npm install && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -13,6 +14,12 @@
 [[redirects]]
   from = "/car/*"
   to = "/car.html"
+  status = 200
+
+# SPA routing for React app
+[[redirects]]
+  from = "/app/*"
+  to = "/app/index.html"
   status = 200
 
 [[headers]]

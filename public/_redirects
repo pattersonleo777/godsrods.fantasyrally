@@ -1,2 +1,11 @@
-/*    /index.html    200
-/car/* /car.html    200
+# API routes
+/api/*  /.netlify/functions/:splat  200
+
+# Car viewer page
+/car/*  /car.html  200
+
+# React SPA routing (for built app)
+/app/*  /app/index.html  200
+
+# Legacy fallback
+/*  /index.html  200
