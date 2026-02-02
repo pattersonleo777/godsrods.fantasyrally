@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents & Downloads | Digital Rehabilitation Initiative</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .download-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+        .download-icon {
+            width: 60px;
+            height: 70px;
+            background: var(--gov-blue);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .download-icon .ext {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .download-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--gov-blue);
+        }
+        .download-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .download-meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .ai-prompts-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+        }
+        .ai-prompts-section h3 {
+            color: #e040fb;
+            border: none;
+        }
+        .prompt-copy-box {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            position: relative;
+        }
+        .prompt-copy-box .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e040fb;
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .prompt-copy-box .copy-btn:hover {
+            background: #f06292;
+        }
+        .print-section {
+            background: #f5f5f5;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .download-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .download-icon {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="gov-header">
+        <h1>United States Department of Justice</h1>
+        <p class="subtitle">Bureau of Justice Assistance | Office of Justice Programs</p>
+    </header>
+
+    <nav class="gov-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="proposal.html">Full Proposal</a></li>
+            <li><a href="research.html">Research & Evidence</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="security.html">Security Protocols</a></li>
+            <li><a href="budget.html">Budget Analysis</a></li>
+            <li><a href="downloads.html" class="active">Documents</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="official-banner">
+            <span class="dot"></span>
+            <strong>DOCUMENT CENTER:</strong> Official Documents, AI Generation Prompts, and Printable Materials
+        </div>
+
+        <div class="official-header">
+            <div>
+                <strong>DOCUMENT REPOSITORY</strong><br>
+                Reference: DOCS-2026
+            </div>
+            <div class="gov-seal-placeholder">
+                DOCUMENT<br>CENTER
+            </div>
+        </div>
+
+        <h2>Official Policy Documents</h2>
+
+        <div class="policy-meta">
+            All documents are available for download and distribution. Print-friendly versions are optimized for official submission to legislative bodies, correctional administrators, and advocacy organizations.
+        </div>
+
+        <div class="download-card">
+            <div class="download-icon">
+                <span>DOC</span>
+                <span class="ext">HTML</span>
+            </div>
+            <div class="download-info">
+                <h4>Complete Policy Proposal</h4>
+                <p>Full proposal document including executive summary, research citations, implementation timeline, and recommendations.</p>
+                <div class="download-meta">Last Updated: February 1, 2026 | Reference: REHAB-TECH-2026-PROPOSAL</div>
+            </div>
+            <a href="proposal.html" class="btn btn-primary" onclick="window.print(); return false;">Print</a>
+        </div>
+
+        <div class="download-card">
+            <div class="download-icon">
+                <span>TECH</span>
+                <span class="ext">HTML</span>
+            </div>
+            <div class="download-info">
+                <h4>Infrastructure Technical Specifications</h4>
+                <p>Central server architecture, thin-client specifications, wired network requirements, and power consumption analysis.</p>
+                <div class="download-meta">Last Updated: February 1, 2026 | Reference: INFRA-TECH-2026</div>
+            </div>
+            <a href="infrastructure.html" class="btn btn-primary" onclick="window.print(); return false;">Print</a>
+        </div>
+
+        <div class="download-card">
+            <div class="download-icon">
+                <span>SEC</span>
+                <span class="ext">HTML</span>
+            </div>
+            <div class="download-info">
+                <h4>Security Protocols Documentation</h4>
+                <p>Zero-trust network architecture, anti-tamper hardware specifications, content monitoring protocols, and access control systems.</p>
+                <div class="download-meta">Last Updated: February 1, 2026 | Reference: SEC-HARDWARE-2026</div>
+            </div>
+            <a href="security.html" class="btn btn-primary" onclick="window.print(); return false;">Print</a>
+        </div>
+
+        <div class="download-card">
+            <div class="download-icon">
+                <span>FIN</span>
+                <span class="ext">HTML</span>
+            </div>
+            <div class="download-info">
+                <h4>Budget and Cost-Benefit Analysis</h4>
+                <p>Detailed fiscal impact report including family savings, operational costs, ROI calculations, and recidivism reduction projections.</p>
+                <div class="download-meta">Last Updated: February 1, 2026 | Reference: BUDGET-TECH-SAVE-2026</div>
+            </div>
+            <a href="budget.html" class="btn btn-primary" onclick="window.print(); return false;">Print</a>
+        </div>
+
+        <div class="download-card">
+            <div class="download-icon">
+                <span>RES</span>
+                <span class="ext">HTML</span>
+            </div>
+            <div class="download-info">
+                <h4>Research and Evidence Compilation</h4>
+                <p>Peer-reviewed studies on gaming and aggression, catharsis effect research, esports industry data, and correctional management evidence.</p>
+                <div class="download-meta">Last Updated: February 1, 2026 | Reference: REHAB-RESEARCH-2026</div>
+            </div>
+            <a href="research.html" class="btn btn-primary" onclick="window.print(); return false;">Print</a>
+        </div>
+
+        <div class="print-section">
+            <h3>Print Complete Document Package</h3>
+            <p>Generate a printable version of all documentation for physical distribution.</p>
+            <button class="btn btn-download" onclick="printAllDocuments()">Print All Documents</button>
+        </div>
+
+        <h2>AI Image Generation Prompts (Pollination.ai)</h2>
+
+        <div class="ai-prompts-section">
+            <h3>Hardware Design Prompts</h3>
+            <p>Use these prompts with Pollination.ai or similar AI image generators to create visual assets for presentations and documentation.</p>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Slam-Proof Controller - 3D Render:</strong><br><br>
+                Photorealistic 3D render of a specialized correctional facility game controller. The body is made of a single-piece, transparent high-impact polycarbonate shell with absolutely no visible screws. You can see the internal circuit boards and wiring encased in clear non-toxic resin through the transparent shell. Seamless unibody construction with smooth, rounded edges. Minimalist buttons made of soft-touch anti-microbial gray rubber, slightly recessed for safety. Analog sticks reinforced with visible internal metal stems. Thick-molded ergonomic grip designed for extreme durability. An integrated retractable cable emerges from the bottom. Product photography style, studio lighting, white background.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Controller Technical Blueprint:</strong><br><br>
+                Technical engineering drawing of a correctional facility game controller, showing cross-section view. Blue-line blueprint style. Labels pointing to: ballistic polycarbonate outer shell (3mm thick), internal electronics sealed in clear resin, reinforced metal analog stick stems, anti-microbial silicone buttons, retractable braided cable mechanism, no screws or seams for prying. Include material specifications and dimensions. Professional industrial design document style.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Cell Transformation Blueprint:</strong><br><br>
+                Detailed architectural blueprint drawing of a modern prison cell transformed into a digital rehabilitation space. Clean blue-line technical drawing style. The cell shows: a wall-mounted thin-client terminal in a secure metal enclosure, Cat6 Ethernet cable routed through secure conduit along the wall, an institutional LED TV mounted at eye level, a slam-proof polycarbonate game controller on a retractable cable mount, a small desk area with anti-ligature design. Labels and measurements in professional technical drawing style. White background, blue lines, official government document aesthetic.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Pod Layout Floor Plan:</strong><br><br>
+                Aerial floor plan view of a prison pod transformed for digital rehabilitation. Technical blueprint style with blue lines on white background. Shows 20 cells arranged around a central common area. Each cell has an Ethernet line running to a central switch cabinet. The common area features a tournament viewing screen and four gaming stations. Network topology overlay shows wired connections from central server room to each cell. Include legend and scale. Professional architectural drawing style.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Network Security Diagram:</strong><br><br>
+                A technical cybersecurity diagram showing a secure network architecture for a correctional facility. Cold blue color scheme on dark background. Center shows a 'CENTRAL GAMING SERVER' icon protected by multiple rings labeled 'FIREWALL', 'MAC FILTERING', 'AI GATEKEEPER'. Blue glowing lines representing 'WHITELISTED SIGNALS' flow outward to 'AUTHORIZED TERMINALS'. Red X marks and 'BLOCKED' labels show external threats being deflected: 'SMUGGLED PHONE', 'UNAUTHORIZED DEVICE', 'EXTERNAL HACKING ATTEMPT'. A Faraday mesh visualization surrounds the entire facility. Clean vector infographic style, 4K resolution, professional cybersecurity documentation aesthetic.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Full System Architecture:</strong><br><br>
+                Technical visualization of a complete prison gaming infrastructure system. Cold blue cybersecurity color scheme. Center: A heavy-duty steel server cabinet with glowing LED status indicators, labeled 'CENTRAL GAMING SERVER'. From the server, secure wired connections (glowing blue lines) extend outward to multiple 'POD SWITCH' units. Each pod switch connects to a grid of 20 'CELL TERMINAL' icons. Overlay shows security features: 'FIREWALL', 'MAC FILTERING', 'CONTENT MONITORING'. The background shows a simplified facility floor plan. Professional network topology diagram style, 4K resolution, clean vector graphics.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Accessible Controller Design:</strong><br><br>
+                Photorealistic 3D render of an accessible game controller for correctional facilities. Large, flat surface design with oversized programmable buttons arranged in a semi-circle. Each button is 2 inches in diameter with high-contrast colors (red, blue, yellow, green) on a matte gray base. Clear polycarbonate construction showing sealed internal electronics. Mounting points for wheelchair or table attachment. Integrated 3.5mm audio jack with volume control. Soft-touch anti-slip surface. Professional product photography, studio lighting, white background.
+            </div>
+
+            <div class="prompt-copy-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+                <strong>Durability Testing Visualization:</strong><br><br>
+                A four-panel technical illustration showing durability testing of a correctional facility game controller. Panel 1: Controller being dropped from 10-foot height with measurement markings. Panel 2: Controller receiving 50-lb impact force from testing apparatus. Panel 3: Controller being thrown at high velocity toward concrete wall. Panel 4: Controller afterward, completely intact with 'PASS' checkmark and certification seal. Clean technical illustration style with blue and white color scheme. Professional quality assurance documentation aesthetic.
+            </div>
+        </div>
+
+        <h2>External Research Sources</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>Academic Research</h4>
+                <ul>
+                    <li><a href="https://journals.sagepub.com/doi/full/10.1089/cyber.2020.0033" target="_blank">SAGE: Violent Video Games and Aggression</a></li>
+                    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11475470/" target="_blank">PMC: Cathartic Effects Study</a></li>
+                    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10791125/" target="_blank">PMC: Impact of Violence in Games</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Policy Sources</h4>
+                <ul>
+                    <li><a href="https://www.prisonpolicy.org/" target="_blank">Prison Policy Initiative</a></li>
+                    <li><a href="https://www.fcc.gov/general/ipcs" target="_blank">FCC: Incarcerated Persons Communications</a></li>
+                    <li><a href="https://www.prisonlegalnews.org/" target="_blank">Prison Legal News</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Industry Data</h4>
+                <ul>
+                    <li><a href="https://www.fortunebusinessinsights.com/esports-market-106820" target="_blank">Fortune: Esports Market Analysis</a></li>
+                    <li><a href="https://energyusecalculator.com/electricity_gameconsole.htm" target="_blank">Console Power Consumption Data</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Share This Initiative</h2>
+
+        <div class="highlight-box" style="text-align: center;">
+            <p>Help spread awareness of the Digital Rehabilitation Initiative. Share this website with:</p>
+            <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                <li>Correctional administrators and wardens</li>
+                <li>State and federal legislators</li>
+                <li>Criminal justice reform advocates</li>
+                <li>Technology and gaming industry partners</li>
+                <li>Academic researchers</li>
+            </ul>
+            <div style="margin-top: 20px;">
+                <strong>Website URL:</strong><br>
+                <code style="background: #f5f5f5; padding: 10px 20px; display: inline-block; margin-top: 10px; font-size: 14px;">
+                    [Your Deployed URL Here]
+                </code>
+            </div>
+        </div>
+
+        <div class="gov-footer">
+            <div class="classification">UNCLASSIFIED // FOR PUBLIC DISTRIBUTION</div>
+            <p>Department of Corrections & Rehabilitation - 2026 Digital Reform Act</p>
+            <p style="margin-top: 10px;"><strong>"Rehabilitation Through Innovation"</strong></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        function copyPrompt(btn) {
+            const box = btn.parentElement;
+            const text = box.textContent.replace('COPY', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'COPIED!';
+                setTimeout(() => btn.textContent = 'COPY', 2000);
+            });
+        }
+
+        function printAllDocuments() {
+            alert('To print the complete document package:\n\n1. Open each document page\n2. Use Ctrl+P (or Cmd+P on Mac)\n3. Select "Save as PDF" or print directly\n\nAlternatively, use your browser\'s print feature on this page for a summary.');
+            window.print();
+        }
+    </script>
+</body>
+</html>

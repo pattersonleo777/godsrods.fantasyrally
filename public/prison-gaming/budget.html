@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Analysis | Digital Rehabilitation Initiative</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .budget-card {
+            background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+            border: 2px solid var(--gov-blue);
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .budget-card .amount {
+            font-size: 42px;
+            font-weight: bold;
+            color: var(--gov-blue);
+        }
+        .budget-card .label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .budget-card.savings {
+            border-color: var(--success-green);
+        }
+        .budget-card.savings .amount {
+            color: var(--success-green);
+        }
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin: 30px 0;
+        }
+        .comparison-box {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .comparison-box.old {
+            border: 2px solid #c62828;
+        }
+        .comparison-box.new {
+            border: 2px solid var(--success-green);
+        }
+        .comparison-arrow {
+            font-size: 36px;
+            color: var(--success-green);
+        }
+        .roi-bar {
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .roi-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gov-blue) 0%, var(--success-green) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+            .comparison-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="gov-header">
+        <h1>United States Department of Justice</h1>
+        <p class="subtitle">Bureau of Justice Assistance | Office of Justice Programs</p>
+    </header>
+
+    <nav class="gov-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="proposal.html">Full Proposal</a></li>
+            <li><a href="research.html">Research & Evidence</a></li>
+            <li><a href="infrastructure.html">Infrastructure</a></li>
+            <li><a href="security.html">Security Protocols</a></li>
+            <li><a href="budget.html" class="active">Budget Analysis</a></li>
+            <li><a href="downloads.html">Documents</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="official-banner">
+            <span class="dot"></span>
+            <strong>FISCAL IMPACT REPORT:</strong> Cost-Benefit Analysis of Digital Rehabilitation Infrastructure
+        </div>
+
+        <div class="official-header">
+            <div>
+                <strong>BUDGET ANALYSIS MEMORANDUM</strong><br>
+                Reference: BUDGET-TECH-SAVE-2026
+            </div>
+            <div class="gov-seal-placeholder">
+                FISCAL<br>DIVISION
+            </div>
+        </div>
+
+        <h2>Executive Fiscal Summary</h2>
+
+        <div class="policy-meta">
+            This analysis compares the costs of the proposed Digital Rehabilitation Initiative against current correctional communication and entertainment expenses, demonstrating significant savings for both facilities and inmate families while providing enhanced rehabilitation outcomes.
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="number">$386M</span>
+                <span class="label">Est. Annual Family Savings (FCC Data)</span>
+            </div>
+            <div class="stat-box">
+                <span class="number">67%</span>
+                <span class="label">Power Reduction</span>
+            </div>
+            <div class="stat-box">
+                <span class="number">400%</span>
+                <span class="label">ROI on Vocational Training</span>
+            </div>
+            <div class="stat-box">
+                <span class="number">70%</span>
+                <span class="label">Hardware Cost Reduction</span>
+            </div>
+        </div>
+
+        <h2>I. Consumer Cost Analysis: The Burden of Current Prison Communication</h2>
+
+        <p>Historically, prison telecom has generated over <span class="stat-highlight">$1.4 billion annually</span> by exploiting a captive market. While the FCC has recently lowered caps, families still face significant financial distress compared to the proposed cloud-based model.</p>
+
+        <h3>Current Prison Communication Rates (2025-2026)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Service Type</th>
+                    <th>FCC Rate Cap (2024)</th>
+                    <th>2025 Rollback Rates</th>
+                    <th>Proposed Cloud Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Voice Calls (Large Prison)</strong></td>
+                    <td>$0.06/minute</td>
+                    <td>$0.09-0.12/minute</td>
+                    <td>$0.02/minute</td>
+                </tr>
+                <tr>
+                    <td><strong>Voice Calls (Small Jail)</strong></td>
+                    <td>$0.12/minute</td>
+                    <td>Up to $0.21/minute</td>
+                    <td>$0.02/minute</td>
+                </tr>
+                <tr>
+                    <td><strong>Video Visits</strong></td>
+                    <td>$0.11/minute</td>
+                    <td>$0.25-0.44/minute</td>
+                    <td>Flat facility fee</td>
+                </tr>
+                <tr>
+                    <td><strong>E-Messages</strong></td>
+                    <td>Unregulated</td>
+                    <td>$0.05/minute typing</td>
+                    <td>Included in subscription</td>
+                </tr>
+                <tr>
+                    <td><strong>Entertainment Content</strong></td>
+                    <td>Unregulated</td>
+                    <td>$0.05/minute ($3.00/hour)</td>
+                    <td>Included in subscription</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Annual Family Cost Comparison</h3>
+
+        <div class="comparison-row">
+            <div class="comparison-box old">
+                <div style="font-size: 32px; font-weight: bold; color: #c62828;">$4,700+</div>
+                <div style="font-size: 14px; color: #666;">Average Family Annual Cost</div>
+                <div style="font-size: 12px; margin-top: 10px;">
+                    Phone calls: ~$1,200<br>
+                    Video visits: ~$3,500<br>
+                    Entertainment: Variable
+                </div>
+            </div>
+            <div class="comparison-arrow">&#8594;</div>
+            <div class="comparison-box new">
+                <div style="font-size: 32px; font-weight: bold; color: var(--success-green);">$600-900</div>
+                <div style="font-size: 14px; color: #666;">Proposed Annual Cost</div>
+                <div style="font-size: 12px; margin-top: 10px;">
+                    Flat subscription model<br>
+                    All-inclusive communication<br>
+                    Gaming included
+                </div>
+            </div>
+        </div>
+
+        <div class="budget-card savings">
+            <div class="amount">$3,800+</div>
+            <div class="label">Annual Savings Per Family</div>
+        </div>
+
+        <h2>II. Facility Infrastructure Costs</h2>
+
+        <h3>Initial Capital Expenditure (Per 100-Cell Pod)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Traditional Approach</th>
+                    <th>Proposed System</th>
+                    <th>Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Gaming Hardware</strong></td>
+                    <td>100 Xbox Series S @ $300 = $30,000</td>
+                    <td>100 Thin Clients @ $175 = $17,500</td>
+                    <td style="color: var(--success-green);">$12,500</td>
+                </tr>
+                <tr>
+                    <td><strong>Controllers</strong></td>
+                    <td>100 Standard @ $60 = $6,000</td>
+                    <td>100 DOJ Prototype @ $85 = $8,500</td>
+                    <td style="color: #c62828;">-$2,500</td>
+                </tr>
+                <tr>
+                    <td><strong>Central Server</strong></td>
+                    <td>N/A</td>
+                    <td>1 Enterprise Server = $25,000</td>
+                    <td style="color: #c62828;">-$25,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Networking</strong></td>
+                    <td>Basic Wi-Fi = $2,000</td>
+                    <td>Secure Wired Infrastructure = $8,000</td>
+                    <td style="color: #c62828;">-$6,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Installation</strong></td>
+                    <td>$5,000</td>
+                    <td>$12,000</td>
+                    <td style="color: #c62828;">-$7,000</td>
+                </tr>
+                <tr style="background: #f0f0f0; font-weight: bold;">
+                    <td><strong>TOTAL INITIAL</strong></td>
+                    <td>$43,000</td>
+                    <td>$71,000</td>
+                    <td style="color: #c62828;">-$28,000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <strong>Note:</strong> While initial costs are higher, the proposed system offers significantly lower operational costs over its lifecycle, resulting in break-even within 2 years and substantial savings thereafter.
+        </div>
+
+        <h3>Annual Operating Costs (Per 100-Cell Pod)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Expense Category</th>
+                    <th>Traditional Approach</th>
+                    <th>Proposed System</th>
+                    <th>Annual Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Electricity</strong></td>
+                    <td>100 consoles x 200W x 6hr/day x 365 = ~$15,800/yr</td>
+                    <td>Server + thin clients = ~$5,100/yr</td>
+                    <td style="color: var(--success-green);">$10,700</td>
+                </tr>
+                <tr>
+                    <td><strong>Hardware Replacement</strong></td>
+                    <td>20% annual failure rate = $7,200/yr</td>
+                    <td>5% thin client failure = $875/yr</td>
+                    <td style="color: var(--success-green);">$6,325</td>
+                </tr>
+                <tr>
+                    <td><strong>Controller Replacement</strong></td>
+                    <td>50% annual breakage = $3,000/yr</td>
+                    <td>5% breakage (slam-proof) = $425/yr</td>
+                    <td style="color: var(--success-green);">$2,575</td>
+                </tr>
+                <tr>
+                    <td><strong>Game Licenses/Content</strong></td>
+                    <td>Individual purchases = $5,000/yr</td>
+                    <td>Central licensing = $3,000/yr</td>
+                    <td style="color: var(--success-green);">$2,000</td>
+                </tr>
+                <tr>
+                    <td><strong>IT Maintenance</strong></td>
+                    <td>Individual console support = $8,000/yr</td>
+                    <td>Centralized server support = $4,000/yr</td>
+                    <td style="color: var(--success-green);">$4,000</td>
+                </tr>
+                <tr style="background: #e8f5e9; font-weight: bold;">
+                    <td><strong>TOTAL ANNUAL</strong></td>
+                    <td>$39,000/yr</td>
+                    <td>$13,400/yr</td>
+                    <td style="color: var(--success-green);">$25,600</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>10-Year Total Cost of Ownership</h3>
+
+        <div class="comparison-row">
+            <div class="comparison-box old">
+                <div style="font-size: 28px; font-weight: bold; color: #c62828;">$433,000</div>
+                <div style="font-size: 14px; color: #666;">Traditional Approach</div>
+                <div style="font-size: 12px; margin-top: 10px;">
+                    Initial: $43,000<br>
+                    + 10 years @ $39,000/yr
+                </div>
+            </div>
+            <div class="comparison-arrow">&#8594;</div>
+            <div class="comparison-box new">
+                <div style="font-size: 28px; font-weight: bold; color: var(--success-green);">$205,000</div>
+                <div style="font-size: 14px; color: #666;">Proposed System</div>
+                <div style="font-size: 12px; margin-top: 10px;">
+                    Initial: $71,000<br>
+                    + 10 years @ $13,400/yr
+                </div>
+            </div>
+        </div>
+
+        <div class="budget-card savings">
+            <div class="amount">$228,000</div>
+            <div class="label">10-Year Savings Per 100-Cell Pod</div>
+        </div>
+
+        <h2>III. Electrical Consumption Analysis</h2>
+
+        <p>Based on researched power consumption data for gaming hardware:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Device</th>
+                    <th>Active Power Draw</th>
+                    <th>Daily Usage (6 hrs)</th>
+                    <th>Annual kWh</th>
+                    <th>Annual Cost @ $0.12/kWh</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Xbox Series X</td>
+                    <td>160-200W</td>
+                    <td>1.08 kWh</td>
+                    <td>394 kWh</td>
+                    <td>$47.28</td>
+                </tr>
+                <tr>
+                    <td>PlayStation 5</td>
+                    <td>100-200W</td>
+                    <td>0.9 kWh</td>
+                    <td>328 kWh</td>
+                    <td>$39.42</td>
+                </tr>
+                <tr>
+                    <td>Xbox Series S</td>
+                    <td>25-100W</td>
+                    <td>0.375 kWh</td>
+                    <td>137 kWh</td>
+                    <td>$16.44</td>
+                </tr>
+                <tr>
+                    <td>Nintendo Switch</td>
+                    <td>7.5-18W</td>
+                    <td>0.076 kWh</td>
+                    <td>28 kWh</td>
+                    <td>$3.36</td>
+                </tr>
+                <tr style="background: #e8f5e9;">
+                    <td><strong>Thin Client Terminal</strong></td>
+                    <td><strong>15-30W</strong></td>
+                    <td><strong>0.135 kWh</strong></td>
+                    <td><strong>49 kWh</strong></td>
+                    <td><strong>$5.88</strong></td>
+                </tr>
+                <tr>
+                    <td>Institutional LED TV</td>
+                    <td>50-100W</td>
+                    <td>0.45 kWh</td>
+                    <td>164 kWh</td>
+                    <td>$19.68</td>
+                </tr>
+                <tr>
+                    <td>Older CRT TV</td>
+                    <td>65-150W</td>
+                    <td>0.645 kWh</td>
+                    <td>235 kWh</td>
+                    <td>$28.20</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <strong>Key Finding:</strong> A thin-client terminal consuming 15-30W uses <strong>significantly less power</strong> than most existing institutional televisions (50-100W) and far less than standalone gaming consoles (100-200W). In facilities already providing TVs, adding thin-client gaming capability adds minimal electrical load.
+        </div>
+
+        <h2>IV. Return on Investment: Recidivism Reduction</h2>
+
+        <p>The true fiscal impact extends beyond operational savings. Vocational training and positive mental health outcomes reduce recidivism, generating massive taxpayer savings.</p>
+
+        <h3>Recidivism Cost Analysis</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                    <th>Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Average annual cost per inmate</td>
+                    <td>$35,000 - $60,000</td>
+                    <td>Bureau of Justice Statistics</td>
+                </tr>
+                <tr>
+                    <td>National recidivism rate (5-year)</td>
+                    <td>~77%</td>
+                    <td>Bureau of Justice Statistics</td>
+                </tr>
+                <tr>
+                    <td>Recidivism reduction with vocational training</td>
+                    <td>43% reduction</td>
+                    <td>RAND Corporation</td>
+                </tr>
+                <tr>
+                    <td>Cost per re-incarceration event</td>
+                    <td>$25,000 (arrest/trial) + $35,000+/yr</td>
+                    <td>Various state analyses</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>ROI Calculation</h3>
+
+        <p>For every <strong>$1 spent on digital vocational training</strong> (Server Administration, E-Sports management, Software Testing curricula):</p>
+
+        <div class="roi-bar">
+            <div class="roi-fill" style="width: 80%;">$5.00 RETURN</div>
+        </div>
+
+        <p>This creates a <span class="savings-total">400% ROI for the taxpayer</span> while fostering hope and mental solace for the incarcerated.</p>
+
+        <h3>Conservative Projections (Per 1,000 Inmates)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Without Program</th>
+                    <th>With Program</th>
+                    <th>Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5-Year Recidivism</td>
+                    <td>770 re-incarcerated</td>
+                    <td>439 re-incarcerated</td>
+                    <td>331 fewer returns</td>
+                </tr>
+                <tr>
+                    <td>Re-incarceration Costs</td>
+                    <td>$27M (first year back)</td>
+                    <td>$15.4M</td>
+                    <td style="color: var(--success-green);">$11.6M saved</td>
+                </tr>
+                <tr>
+                    <td>Program Cost</td>
+                    <td>N/A</td>
+                    <td>$710,000 (10 pods)</td>
+                    <td>Investment</td>
+                </tr>
+                <tr style="background: #e8f5e9; font-weight: bold;">
+                    <td>Net Taxpayer Benefit</td>
+                    <td colspan="2" style="text-align: center;">-</td>
+                    <td style="color: var(--success-green);">$10.9M NET SAVINGS</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>V. Violence Reduction Savings</h2>
+
+        <p>Each violent incident in a correctional facility carries significant costs:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Cost Category</th>
+                    <th>Per Incident Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Medical treatment (victim)</td>
+                    <td>$2,000 - $50,000</td>
+                </tr>
+                <tr>
+                    <td>Investigation and documentation</td>
+                    <td>$500 - $2,000</td>
+                </tr>
+                <tr>
+                    <td>Disciplinary proceedings</td>
+                    <td>$500 - $1,500</td>
+                </tr>
+                <tr>
+                    <td>Segregation housing (if required)</td>
+                    <td>$75,000+/year</td>
+                </tr>
+                <tr>
+                    <td>Legal liability/settlements</td>
+                    <td>$10,000 - $1,000,000+</td>
+                </tr>
+                <tr>
+                    <td>Staff injury/compensation</td>
+                    <td>$5,000 - $100,000+</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>With documented <strong>14% reduction in violent incidents</strong> from structured recreational programs, a 1,000-inmate facility averaging 500 incidents annually would see:</p>
+
+        <div class="budget-card savings">
+            <div class="amount">70 Fewer Incidents</div>
+            <div class="label">Annual Violence Reduction</div>
+        </div>
+
+        <p>Conservative estimate of <strong>$350,000+ in annual savings</strong> from reduced violence-related costs.</p>
+
+        <h2>VI. Summary: Total Fiscal Impact</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Annual Savings (Per 1,000 Inmates)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Operational Efficiency (vs. traditional)</td>
+                    <td style="color: var(--success-green);">$256,000</td>
+                </tr>
+                <tr>
+                    <td>Electrical Savings</td>
+                    <td style="color: var(--success-green);">$107,000</td>
+                </tr>
+                <tr>
+                    <td>Family Communication Savings</td>
+                    <td style="color: var(--success-green);">$3,800,000 (transferred to families)</td>
+                </tr>
+                <tr>
+                    <td>Violence Reduction</td>
+                    <td style="color: var(--success-green);">$350,000+</td>
+                </tr>
+                <tr>
+                    <td>Recidivism Reduction (5-yr projection)</td>
+                    <td style="color: var(--success-green);">$10,900,000</td>
+                </tr>
+                <tr style="background: #e8f5e9; font-weight: bold;">
+                    <td><strong>TOTAL ANNUAL BENEFIT</strong></td>
+                    <td style="color: var(--success-green);"><strong>$15.4M+</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box" style="text-align: center; font-size: 18px;">
+            <strong>FISCAL CONCLUSION</strong><br><br>
+            The Digital Rehabilitation Initiative is not an expense - it is an <em>investment</em> with documented returns exceeding <strong>400%</strong>. Every dollar spent saves five dollars in future incarceration costs while providing immediate operational savings and transferring billions in communication costs away from struggling families.
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="downloads.html" class="btn btn-download">Download Budget Report</a>
+            <a href="proposal.html" class="btn btn-primary">Return to Proposal</a>
+        </div>
+
+        <div class="gov-footer">
+            <div class="classification">UNCLASSIFIED // FISCAL DIVISION</div>
+            <p>Department of Corrections & Rehabilitation - 2026 Digital Reform Act</p>
+            <p style="margin-top: 10px;"><strong>"Investing in Rehabilitation"</strong></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
